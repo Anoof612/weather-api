@@ -8,9 +8,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact", policy =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.WithOrigins(
+            "http://localhost:5173",
+            "https://vercel.com/anoofs-projects-545ad47d/weather-app"
+
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+        
     });
 });
 

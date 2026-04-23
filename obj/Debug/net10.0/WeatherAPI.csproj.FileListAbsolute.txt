@@ -149,3 +149,5 @@ C:\Users\anoof\Desktop\Web API\WeatherAPI\obj\Debug\net10.0\refint\WeatherAPI.dl
 C:\Users\anoof\Desktop\Web API\WeatherAPI\obj\Debug\net10.0\WeatherAPI.pdb
 C:\Users\anoof\Desktop\Web API\WeatherAPI\obj\Debug\net10.0\WeatherAPI.genruntimeconfig.cache
 C:\Users\anoof\Desktop\Web API\WeatherAPI\obj\Debug\net10.0\ref\WeatherAPI.dll
+C:\Users\anoof\Desktop\Web API\WeatherAPI\bin\Debug\net10.0\railway.json
+C:\Users\anoof\Desktop\Web API\WeatherAPI\obj\Debug\net10.0\WeatherAPI.sourcelink.json
