@@ -3,25 +3,18 @@ using WeatherAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add CORS
+// 1. CORS (Allow All for now)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReact", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins(
-            "http://localhost:5173",
-            "https://vercel.com/anoofs-projects-545ad47d/weather-app"
-
-        )
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-        
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
 
-// Add Database
+// 2. Database
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite("Data Source=weather.db"));
+    options.UseSqlite("Data Source=/data/weather.db"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -29,15 +22,22 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// 3. Ensure Database is created
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
 }
 
-app.UseHttpsRedirection();
-app.UseCors("AllowReact");
+// 4. IMPORTANT: Remove HTTPS Redirection (Railway handles SSL)
+// app.UseHttpsRedirection(); <-- DELETED OR COMMENTED OUT
+
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+// 5. BIND TO 0.0.0.0 (Crucial for Railway)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+app.Run($"http://0.0.0.0:{port}");
